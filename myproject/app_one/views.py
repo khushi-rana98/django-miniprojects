@@ -43,3 +43,34 @@ def go(request):
 
 def welcome_view(request):
     return HttpResponse("<h2>hey!you have been redirected</h2>")
+
+
+# displaying python data structures in views only
+# since view can hold any python object, but browser only understands
+# text. so every structure has to b turned into string(html or plain text)
+# or into json before leaving the view. 
+# 2 tools--
+# 1  '...'.join(list)-->build html
+# 2  jsonResponse()--> json
+
+# list
+def show_list(request):
+    subjects=['python','flask','django']
+    items=''.join(f'<li>{s}</li>' for s in subjects)
+    html=f'<h2>Subjects {len(subjects)}</h2><ul>{items}</ul>'
+    return HttpResponse(html)
+
+# json response
+def show_list2(request):
+    subjects=["abc","def","ghi"]
+    return JsonResponse({
+        'total':len(subjects),
+        'subjects':subjects
+    })
+
+# tuple
+def show_tuple(request):
+    points=('CSE',4,'B.tech')
+    # rows=''.join(f'<li>{p}</li>' for p in points)
+    # return HttpResponse(f'<ul>{rows}</ul>')
+    return JsonResponse(list(points),safe=False)
